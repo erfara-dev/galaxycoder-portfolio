@@ -17,11 +17,11 @@ portfolio-v2/
 ├── projects/                   Case-study pages
 │   ├── lapanganku.html
 │   ├── portfolio-v1.html
-│   ├── software-experiments.html
+│   ├── volibooking.html
 │   ├── custom-controller.html       IDEA concept
 │   ├── excel-tools.html              IDEA concept
-│   ├── universal-website-template.html
-│   └── restaurant-website.html       DETAILS PENDING
+│   ├── universal-website-template.html  Universal Website · IN DEVELOPMENT
+│   └── food-ordering-app.html        EXPERIMENTAL
 ├── assets/
 │   ├── css/    main.css (tokens, base) · components.css · galaxy.css (Galaxy layer) · clock.css (Galactic Clock) · animations.css · responsive.css
 │   ├── js/     shared-components.js (header, footer, icons) · config.js (YOUR settings) · theme.js · navigation.js · animations.js · contact.js · orbital-clock.js (Galactic Clock) · starfield.js · main.js
@@ -104,23 +104,21 @@ To use a different format (e.g. `.webp`), replace the filename in the HTML `src`
 
 | Asset filename | Purpose | Recommended size | Aspect ratio | Replacement |
 |---|---|---|---|---|
-| `profile/dito-profile-portrait.jpg` | About-section photo (**your original V1 photo `dito.jpeg`**) | 960 × 1280 | 3:4 | Overwrite file. Swap for any photo you prefer. |
+| `profile/dito-profile-portrait.png` | About-section identity portrait artwork | 768 × 1365 | 9:16 | Owner-provided stylized silhouette artwork. |
 | `projects/lapanganku-thumbnail.png` (shown via `optimized/lapanganku-thumbnail.webp`) | Featured LapanganKu card on Work | 1600 × 1000 | 16:10 | Replace with an approved project image. |
 | `projects/lapanganku-hero.jpg` | LapanganKu case-study hero | 1920 × 1080 | 16:9 | **Placeholder** — overwrite. |
-| `projects/portfolio-v1-thumbnail.jpg` | Portfolio V1 card | 1600 × 1000 | 16:10 | **Placeholder** — overwrite. |
+| `projects/portfolio-v1-thumbnail.png` | Portfolio V1 card | 1367 × 768 | 16:9 | Owner-provided screenshot of the Portfolio V1 home page. |
 | `projects/portfolio-v1-hero.jpg` | Portfolio V1 hero | 1920 × 1080 | 16:9 | **Placeholder** — overwrite. |
 | `projects/custom-controller-thumbnail.png` (shown via `optimized/…webp`) | Custom Controller IDEA card on Work | 1600 × 1000 | 16:10 | Replace with user-provided artwork; do not present it as a product screenshot. |
 | `projects/excel-tools-thumbnail.png` (shown via `optimized/…webp`) | Excel Tools IDEA card on Work | 1600 × 1000 | 16:10 | Replace with user-provided artwork; do not present it as a product screenshot. |
-| `projects/universal-template-thumbnail.jpg` | Universal Website Template card on Work | 1600 × 1000 | 16:10 | Optional project artwork; do not imply every planned use case is implemented. |
-| `projects/restaurant-website-thumbnail.jpg` | Restaurant Website card on Work | 1600 × 1000 | 16:10 | Optional project artwork; details pending, do not use a fabricated screenshot. |
-| `gallery/volibooking-home-screenshot.png` | Software Experiments card, hero and gallery (**real V1 asset `image.png`**) | 1919 × 1079 | 16:9 | Overwrite file. |
+| `projects/universal-website.png` | Universal Website card and detail page | 1365 × 768 | 16:9 | Owner-provided conceptual artwork; not a screenshot of completed functionality. |
+| `projects/food-ordering-app-screenshot.png` | Food Ordering App card and detail page | 1365 × 768 | 16:9 | Owner-provided concept visual; mockup branding and completion label are not project identity or status claims. |
+| `gallery/volibooking-home-screenshot.png` | VoliBooking card and case-study hero (**real V1 asset `image.png`**) | 1919 × 1079 | 16:9 | Historical project screenshot. |
 | `gallery/lapanganku-screenshot-01-booking-flow.jpg` | LapanganKu gallery #1 (full width) | 1600 × 1000 | 16:10 | **Placeholder** — overwrite. |
 | `gallery/lapanganku-screenshot-02-vendor-dashboard.jpg` | LapanganKu gallery #2 | 1600 × 1000 | 16:10 | **Placeholder** — overwrite. |
 | `gallery/lapanganku-screenshot-03-superadmin-panel.jpg` | LapanganKu gallery #3 | 1600 × 1000 | 16:10 | **Placeholder** — overwrite. |
 | `gallery/portfolio-v1-screenshot-01-home.jpg` | Portfolio V1 gallery #1 | 1600 × 1000 | 16:10 | **Placeholder** — overwrite. |
 | `gallery/portfolio-v1-screenshot-02-projects.jpg` | Portfolio V1 gallery #2 | 1600 × 1000 | 16:10 | **Placeholder** — overwrite. |
-| `gallery/experiment-dashboard-screenshot.jpg` | Experiments gallery #2 | 1600 × 1000 | 16:10 | **Placeholder** — overwrite. |
-| `gallery/experiment-company-profile-screenshot.jpg` | Experiments gallery #3 | 1600 × 1000 | 16:10 | **Placeholder** — overwrite. |
 | `social/og-cover.jpg` | Open Graph / social share image | 1200 × 630 | 1.91:1 | **Placeholder** — overwrite with a branded card. |
 | `../icons/favicon.svg` (`assets/icons/`) | Browser tab icon | vector | 1:1 | Overwrite file. |
 
@@ -132,16 +130,16 @@ I did not invent personal data, but some copy had to be drafted from V1. Please 
 
 - **GitHub URL** — V1 used two different handles: `github.com/ditoerfana` (footer) and `github.com/erfara-dev` (contact page). V2 uses `erfara-dev`. Search `erfara-dev` to change it.
 - **Phone number** — V1 listed `+62 859-1838-93590` (one digit too many). It is intentionally **not** shown in V2.
-- **LapanganKu tech stack** (PHP, Blade, Tailwind CSS, MySQL) mirrors the VoliBooking project in V1; confirm it matches LapanganKu. Edit in `work.html` and `projects/lapanganku.html`.
+- **VoliBooking** is the Class XI single-vendor concept and predecessor to LapanganKu; LapanganKu is a substantially different multivendor platform with distinct features and workflows.
 - **Education** timeline entry is an explicit placeholder; add your real institution/programme in `journey.html`.
-- **Timeline order** (VoliBooking → LapanganKu → Portfolio V1) is a best guess; dates were left out on purpose.
+- **VoliBooking source code** is no longer available. Its case study is limited to confirmed history, single-vendor architecture, PHPMailer focus and technologies; no unverified implementation details are inferred.
 - **Custom Controller** and **Excel Tools** are concept-only projects marked `IDEA`; their planned features are not claims of implementation.
-- **Universal Website Template** describes separate booking and ordering directions; its technology stack and individual implementation status have not been provided.
-- **Restaurant Website** is marked `DETAILS PENDING`; update its entry and detail page only after reviewing the original project source and information.
+- **Universal Website** is in development: Core extraction and BOOK are underway; BUY, BOTH, file-based customization, installer and package builder are planned or not yet implemented as labelled on its detail page.
+- **Food Ordering App** is an experimental, mobile-focused customer interface designed with Google Stitch and developed with React and Vite using Google AI Studio. Its described scope is not a claim of verified backend behavior or production functionality.
 - **Case-study text** (problem, challenges, lessons) is a first draft grounded in V1's own wording; make it yours.
 - Feature statuses: LapanganKu payments and deployment are marked **Not claimed**.
 - Site language is English (V1 was Indonesian).
 - Contact form `Last name` is optional (as in V1).
 - Fonts load from Google Fonts (Sora, DM Sans, JetBrains Mono); icons are inline SVG.
-- **Placeholder artwork** (`portfolio-v1-thumbnail.jpg`, hero, gallery placeholders, `og-cover.jpg`) is still the original orange/charcoal V2 placeholder. It is intentionally left as-is; replace with real images.
+- **Placeholder artwork** (Portfolio V1 hero, gallery placeholders, and `og-cover.jpg`) remains in place; the Work-card thumbnail is the owner-provided Portfolio V1 screenshot.
 - **Galaxy design vs. content:** the Stitch mock-ups contained invented details (Vue/Tailwind claims, mastery/commit percentages, uptime metrics, locations, another email address, different project statuses). None were carried over; all copy, statuses, tech tags and contact details come from V2.
