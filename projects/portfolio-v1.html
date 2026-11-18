@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio V1 — Case Study · Dito Erfana</title>
+<meta name="description" content="Portfolio V1 case study — the original personal portfolio that preceded Portfolio V2, and how the redesign evolved its identity, presentation and front-end.">
+<meta name="theme-color" content="#080b18">
+<meta name="author" content="Dito Erfana">
+<link rel="canonical" href="https://your-domain.example/projects/portfolio-v1.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dito Erfana">
+<meta property="og:title" content="Portfolio V1 — Dito Erfana">
+<meta property="og:description" content="Portfolio V1 case study — the original personal portfolio that preceded Portfolio V2, and how the redesign evolved its identity, presentation and front-end.">
+<meta property="og:url" content="https://your-domain.example/projects/portfolio-v1.html">
+<meta property="og:image" content="https://your-domain.example/assets/images/social/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Dito Erfana — Turning Ideas Into Digital Experiences.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<script>(function(){var d=document.documentElement;d.classList.add('js');var t=null;try{t=localStorage.getItem('dito-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t='dark';try{if(window.matchMedia('(prefers-color-scheme: light)').matches)t='light'}catch(e){}}d.setAttribute('data-theme',t)})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Sora:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/galaxy.css">
+<link rel="stylesheet" href="../assets/css/animations.css">
+<link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body id="top" data-page="work" data-root="../">
+<a class="skip-link" href="#main">Skip to main content</a>
+<span data-site-icons></span>
+<div data-site-header></div>
+<main id="main">
+<div class="container">
+  <section class="page-hero" aria-labelledby="page-title">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../work.html"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-left"/></svg>Back to Work</a><span aria-hidden="true">/</span><span aria-current="page">Portfolio V1</span>
+    </nav>
+    <p class="eyebrow" data-hero style="--i:0"><span class="eyebrow__index">Case study 02</span><span>Personal Portfolio · Front-end</span></p>
+    <h1 class="page-hero__title" id="page-title" data-hero style="--i:1">Portfolio V1</h1>
+    <p class="page-hero__lead" data-hero style="--i:2">The original personal portfolio that preceded V2 — a compact, multi-page static site that established the charcoal-and-orange identity this redesign builds on.</p>
+    <dl class="meta-bar" data-hero style="--i:3">
+      <div class="meta-item"><dt>Type</dt><dd>Personal portfolio</dd></div><div class="meta-item"><dt>Pages</dt><dd>Home, Projects, About, Contact</dd></div><div class="meta-item"><dt>Built with</dt><dd>HTML, Tailwind CDN, JS</dd></div><div class="meta-item"><dt>Status</dt><dd>Superseded by V2</dd></div>
+    </dl>
+    <div class="page-hero__media" data-hero style="--i:4">
+      <div class="media media--wide" data-fallback="Portfolio V1 — replace portfolio-v1-hero.jpg"><img src="../assets/images/projects/portfolio-v1-hero.jpg" alt="Placeholder for a Portfolio V1 hero screenshot — replace assets/images/projects/portfolio-v1-hero.jpg" width="1920" height="1080" fetchpriority="high" onerror="this.parentNode.classList.add('is-missing');this.remove()"></div>
+    </div>
+  </section>
+
+  <section class="detail-section" aria-labelledby="overview-title">
+    <div class="detail-grid">
+      <header class="reveal"><p class="eyebrow"><span class="eyebrow__index">01</span><span>Overview</span></p><h2 id="overview-title">What it is</h2></header>
+      <div class="prose reveal"><p>Portfolio V1 introduced me as a developer learning front-end web development, PHP and Laravel basics. It had four pages — Home, Projects, About and Contact — with a fixed navigation bar, a project gallery and a contact page.</p><p>V2 is the next step in that story: it keeps what made V1 recognisable and rebuilds how it is structured, presented and implemented.</p></div>
+    </div>
+  </section>
+
+  <section class="detail-section" aria-labelledby="problem-title">
+    <div class="detail-grid">
+      <header class="reveal"><p class="eyebrow"><span class="eyebrow__index">02</span><span>Problem</span></p><h2 id="problem-title">The starting point</h2></header>
+      <div class="prose reveal"><p>V1 did its job as a first portfolio, but it had limits. The contact form was interface-only and did not send messages. Styling depended on the Tailwind CDN at runtime. There was no light theme, and projects were summarised on a single gallery page with no individual case studies.</p></div>
+    </div>
+  </section>
+
+  <section class="detail-section" aria-labelledby="solution-title">
+    <div class="detail-grid">
+      <header class="reveal"><p class="eyebrow"><span class="eyebrow__index">03</span><span>Solution</span></p><h2 id="solution-title">The redesign</h2></header>
+      <div class="reveal" style="display:grid;gap:var(--space-5)">
+        <div class="prose"><p>V2 is a redesign rather than a patch. The visual identity — dark charcoal, orange, the ring motif — is preserved, while structure, typography, theming and the contact flow were rebuilt. The comparison below shows what changed.</p></div>
+        <div class="table-wrap"><table class="compare"><thead><tr><th scope="col">Aspect</th><th scope="col">V1</th><th scope="col">V2</th></tr></thead><tbody><tr><th scope="row">Structure</th><td>Four separate pages</td><td>Single-page home plus three case-study pages</td></tr><tr><th scope="row">Styling</th><td>Tailwind CSS via CDN and a small custom stylesheet</td><td>Modular custom CSS with semantic design tokens; no build step</td></tr><tr><th scope="row">Typography</th><td>Montserrat and Inter</td><td>Space Grotesk, Inter and JetBrains Mono</td></tr><tr><th scope="row">Theme</th><td>Dark only</td><td>Dark by default, light alternative, saved in localStorage</td></tr><tr><th scope="row">Contact form</th><td>Interface only — not connected</td><td>EmailJS integration with validation and a honeypot, ready for credentials</td></tr><tr><th scope="row">Projects</th><td>One gallery page</td><td>Case studies that separate implemented from unclaimed features</td></tr><tr><th scope="row">Identity</th><td>Charcoal and orange, circular ring graphic</td><td>Same palette and ring motif, refined</td></tr></tbody></table></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="detail-section" aria-labelledby="features-title">
+    <div class="detail-grid">
+      <header class="reveal"><p class="eyebrow"><span class="eyebrow__index">04</span><span>Main features</span></p><h2 id="features-title">What it does</h2></header>
+      <div class="reveal">
+        <div class="feature-list">
+          <div class="feature"><h3>Four-page static site</h3><span class="status status--done">Implemented</span><p>Home, Projects, About and Contact pages sharing one navigation bar.</p></div><div class="feature"><h3>Responsive navigation</h3><span class="status status--done">Implemented</span><p>Fixed header with a mobile menu toggle.</p></div><div class="feature"><h3>Project gallery</h3><span class="status status--done">Implemented</span><p>A gallery of the booking project and three practice exercises.</p></div><div class="feature"><h3>Back-to-top button</h3><span class="status status--done">Implemented</span><p>A floating button that appears after scrolling.</p></div><div class="feature"><h3>Contact form delivery</h3><span class="status status--planned">Not claimed</span><p>The form was interface-only and said so on screen; it did not send messages.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="detail-section" aria-labelledby="stack-title">
+    <div class="detail-grid">
+      <header class="reveal"><p class="eyebrow"><span class="eyebrow__index">05</span><span>Technology stack</span></p><h2 id="stack-title">Built with</h2></header>
+      <div class="stack-groups reveal">
+        <div class="stack-group"><h3>Markup</h3><ul class="tag-list" role="list"><li class="tag tag--accent">HTML5</li></ul></div><div class="stack-group"><h3>Styling</h3><ul class="tag-list" role="list"><li class="tag tag--accent">Tailwind CSS (CDN)</li><li class="tag tag--accent">Custom CSS</li></ul></div><div class="stack-group"><h3>Scripting</h3><ul class="tag-list" role="list"><li class="tag tag--accent">Vanilla JavaScript</li></ul></div><div class="stack-group"><h3>Type & icons</h3><ul class="tag-list" role="list"><li class="tag tag--accent">Montserrat</li><li class="tag tag--accent">Inter</li><li class="tag tag--accent">Material Symbols</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="detail-section" aria-labelledby="gallery-title">
+    <header class="section-head reveal"><p class="eyebrow"><span class="eyebrow__index">06</span><span>Screenshot gallery</span></p><h2 id="gallery-title">Screens</h2></header>
+    <div class="gallery">
+      <figure class="gallery__item reveal"><div class="media media--gallery" data-fallback="Screenshot — gallery/portfolio-v1-screenshot-01-home.jpg"><img src="../assets/images/gallery/portfolio-v1-screenshot-01-home.jpg" alt="Placeholder for a Portfolio V1 screenshot: the home page" width="1600" height="1000" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('is-missing');this.remove()"></div><figcaption>Home page <span class="status status--placeholder">Placeholder</span></figcaption></figure><figure class="gallery__item reveal"><div class="media media--gallery" data-fallback="Screenshot — gallery/portfolio-v1-screenshot-02-projects.jpg"><img src="../assets/images/gallery/portfolio-v1-screenshot-02-projects.jpg" alt="Placeholder for a Portfolio V1 screenshot: the projects page" width="1600" height="1000" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('is-missing');this.remove()"></div><figcaption>Projects page <span class="status status--placeholder">Placeholder</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section class="detail-section" aria-labelledby="challenges-title">
+    <header class="section-head reveal"><p class="eyebrow"><span class="eyebrow__index">07</span><span>Development challenges</span></p><h2 id="challenges-title">What was hard</h2></header>
+    <div class="cards-3">
+      <article class="info-card reveal" style="--i:0"><span class="info-card__num">01</span><h3>Contact without a backend</h3><p>A static site has no server to send email. V1 was honest about that and left the form unconnected; V2 answers it with EmailJS.</p></article><article class="info-card reveal" style="--i:1"><span class="info-card__num">02</span><h3>CDN-dependent styling</h3><p>Loading Tailwind from a CDN at runtime ties the site&#x27;s appearance to an external script. V2 moves styling into local, modular CSS.</p></article><article class="info-card reveal" style="--i:2"><span class="info-card__num">03</span><h3>Showing depth</h3><p>A single gallery page can list projects but not explain them. V2 adds case studies with problem, solution and honest feature status.</p></article>
+    </div>
+  </section>
+
+  <section class="detail-section" aria-labelledby="lessons-title">
+    <header class="section-head reveal"><p class="eyebrow"><span class="eyebrow__index">08</span><span>Lessons learned</span></p><h2 id="lessons-title">What I took away</h2></header>
+    <div class="cards-3">
+      <article class="info-card reveal" style="--i:0"><span class="info-card__num">01</span><h3>Keep the identity, rebuild the execution</h3><p>Colour, tone and the ring motif carried over. What changed was hierarchy, structure and polish — the experience, not the personality.</p></article><article class="info-card reveal" style="--i:1"><span class="info-card__num">02</span><h3>Ship the honest version</h3><p>V1 told visitors the form wasn&#x27;t connected instead of pretending. That habit carries into V2&#x27;s feature status labels.</p></article><article class="info-card reveal" style="--i:2"><span class="info-card__num">03</span><h3>Structure pays off later</h3><p>Separating tokens, components and scripts makes the next redesign cheaper than this one was.</p></article>
+    </div>
+  </section>
+
+  <nav class="detail-section" aria-label="More case studies">
+    <div class="pager reveal">
+      <a class="pager__link" href="lapanganku.html" rel="prev"><span class="pager__dir"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-left"/></svg>Previous</span><span class="pager__title">LapanganKu</span></a>
+      <a class="pager__link pager__link--next" href="software-experiments.html" rel="next"><span class="pager__dir">Next<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"/></svg></span><span class="pager__title">Software Experiments</span></a>
+    </div>
+    <div class="back-row"><a class="btn btn--ghost" href="../work.html"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-left"/></svg>Back to Work</a></div>
+  </nav>
+</div>
+</main>
+<div data-site-footer></div>
+<script src="../assets/js/shared-components.js" defer></script>
+<script src="../assets/js/config.js" defer></script>
+<script src="../assets/js/theme.js" defer></script>
+<script src="../assets/js/navigation.js" defer></script>
+<script src="../assets/js/animations.js" defer></script>
+<script src="../assets/js/contact.js" defer></script>
+<script src="../assets/js/starfield.js" defer></script>
+<script src="../assets/js/main.js" defer></script>
+</body>
+</html>

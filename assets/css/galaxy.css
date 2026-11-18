@@ -1,0 +1,280 @@
+/* ==========================================================================
+   galaxy.css — "Deep Space Observatory" layer
+   Loaded after components.css. Everything here is theme-aware through the
+   tokens in main.css; nothing is hard-coded to dark.
+   Contents: backdrop · header · buttons · glass surfaces · motifs · chips ·
+             forms · footer · light-theme adjustments
+   ========================================================================== */
+
+/* ---------- Backdrop ---------- */
+body {
+  background:
+    radial-gradient(1100px 620px at 78% -8%, color-mix(in srgb, var(--violet) 55%, transparent), transparent 70%),
+    radial-gradient(900px 600px at 6% 38%, color-mix(in srgb, var(--surface-2) 70%, transparent), transparent 70%),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+.starfield {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--star-opacity);
+}
+
+/* Faint measurement grid, used on page headers */
+.section::before,
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.35;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000, transparent 75%);
+}
+
+.section--alt {
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+  border-block-color: var(--border);
+}
+
+/* ---------- Typography ---------- */
+h1, h2, h3, h4 { font-weight: 600; letter-spacing: -0.02em; }
+.hero__title, .contact__title, .page-hero__title { font-weight: 700; letter-spacing: -0.03em; }
+
+.hero__title em,
+h2 em {
+  font-style: normal;
+  background: linear-gradient(100deg, var(--accent-text), var(--text-dim) 120%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+:root[data-theme="light"] .hero__title em { background: linear-gradient(100deg, #08627f, #4b4fb0); -webkit-background-clip: text; background-clip: text; }
+
+.eyebrow { letter-spacing: 0.16em; }
+.eyebrow::before { width: 2rem; background: linear-gradient(90deg, var(--accent-text), transparent); }
+.mono, .tag, .status, .meta-item dt, .contact__label { font-variant-numeric: tabular-nums; }
+
+/* ---------- Header ---------- */
+.site-header {
+  background: var(--header-bg);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  backdrop-filter: blur(20px) saturate(150%);
+}
+.site-header.is-scrolled { border-bottom-color: var(--border); box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.6); }
+
+.brand { gap: var(--space-3); }
+.brand__text { display: grid; line-height: 1.1; }
+.brand__name { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.02em; }
+.brand__tag {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.brand__orbit { stroke: var(--ring-line); }
+.brand__planet { fill: var(--accent); }
+.brand__mark { filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 40%, transparent)); }
+:root[data-theme="light"] .brand__mark { filter: none; }
+:root[data-theme="light"] #bm-sun stop:nth-child(1) { stop-color: #ffe9a8; }
+:root[data-theme="light"] #bm-sun stop:nth-child(2) { stop-color: #f0b94a; }
+:root[data-theme="light"] #bm-sun stop:nth-child(3) { stop-color: #0b7a9c; }
+
+.nav {
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--glass);
+}
+.nav__link { border-radius: var(--radius); min-height: 40px; padding: 0 0.95rem; }
+.nav__link::after { display: none; }
+.nav__link:hover { background: var(--accent-soft); }
+.nav__link[aria-current] {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+.icon-btn {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--glass);
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.icon-btn:hover { border-color: var(--border-strong); box-shadow: var(--glow); color: var(--accent-text); }
+
+/* ---------- Buttons ---------- */
+.btn { border-radius: var(--radius); font-family: var(--font-body); }
+.btn--primary { box-shadow: var(--glow); }
+.btn--primary:hover { box-shadow: 0 0 24px color-mix(in srgb, var(--accent) 45%, transparent); }
+.btn--ghost { --btn-bg: var(--glass); --btn-border: var(--border-strong); }
+.btn--ghost:hover { --btn-border: var(--accent); --btn-fg: var(--accent-text); }
+
+/* ---------- Glass surfaces (Level 2) ---------- */
+.project-card, .skill-card, .info-card, .form-card, .identity-card, .timeline__item,
+.note, .detail-section, .pager__link, .compare, .stack-group, .table-wrap,
+.status-legend, .meta-bar {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.project-card, .skill-card, .info-card, .form-card, .identity-card, .timeline__item {
+  position: relative;
+  border-radius: var(--radius-lg);
+  transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.project-card:hover, .skill-card:hover, .info-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow), var(--glow);
+}
+
+/* Crosshair corner marks — purely decorative */
+.project-card::after, .skill-card::after, .form-card::after, .info-card::after {
+  content: "+";
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1;
+  color: var(--border-strong);
+  pointer-events: none;
+}
+
+.pullquote {
+  border-left: 2px solid var(--accent);
+  background: linear-gradient(90deg, var(--accent-soft), transparent 70%);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.skill-card__num, .info-card__num, .eyebrow__index { font-family: var(--font-mono); color: var(--text-dim); }
+:root[data-theme="light"] .skill-card__num, :root[data-theme="light"] .info-card__num, :root[data-theme="light"] .eyebrow__index { color: var(--text-muted); }
+
+.link-arrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-text); }
+
+.media { border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+
+/* ---------- Chips, tags, statuses ---------- */
+.tag, .status, .badge-featured {
+  font-family: var(--font-mono);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 70%, transparent);
+  color: var(--text);
+}
+.tag--learning {
+  border-style: dashed;          /* the Skills legend says "Dashed chips: currently learning" */
+  border-color: var(--accent);
+  color: var(--accent-text);
+  background: var(--accent-soft);
+  box-shadow: var(--glow);
+}
+.tag--learning::before {
+  content: "";
+  display: inline-block;
+  width: 5px; height: 5px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  vertical-align: middle;
+}
+
+/* Status chips keep their original meaning; only the skin changes. */
+.status::before {
+  content: "";
+  display: inline-block;
+  width: 5px; height: 5px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  vertical-align: middle;
+}
+.status--done { color: var(--accent-text); }
+.status--idea { color: var(--gold); }
+.status--planned { color: var(--text-dim); }
+.status--exp { color: var(--accent-text); }
+.status--pending, .status--placeholder { color: var(--text-muted); border-style: dashed; }
+:root[data-theme="light"] .status--planned { color: var(--text-muted); }
+
+/* ---------- Timeline ---------- */
+.timeline__item--current { border-color: var(--border-strong); box-shadow: var(--shadow), var(--glow); }
+
+/* ---------- Forms ---------- */
+.field input, .field select, .field textarea {
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--text-dim); opacity: 0.9; }
+:root[data-theme="light"] .field input::placeholder, :root[data-theme="light"] .field textarea::placeholder { color: var(--text-muted); }
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+.field label { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.form-status { border-radius: var(--radius); }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.footer__wordmark { font-weight: 700; }
+.footer__coord {
+  margin-top: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+:root[data-theme="light"] .footer__coord { color: var(--text-muted); }
+.footer__bottom { align-items: center; }
+.footer__built { letter-spacing: 0.06em; }
+
+/* ---------- 404 ---------- */
+.not-found__code { background: linear-gradient(120deg, var(--accent-text), var(--text-dim)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* ---------- Theme switch transition ---------- */
+:root.theme-transition body { transition: background-color var(--dur) var(--ease); }
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card, .skill-card, .info-card { transition: none; }
+}
+
+/* ---------- Hero meta strip ---------- */
+.hero__meta { gap: var(--space-4); border-top: 0; padding-top: 0; }
+.hero__meta .meta-item {
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius);
+  background: var(--glass);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+.hero__meta .meta-item dd { color: var(--text); }
+
+/* ---------- Hero order on tablet/mobile: headline first, clock below at a readable size ---------- */
+@media (max-width: 1023.98px) {
+  .hero__grid .hero__visual { order: 0; justify-self: center; width: min(100%, 440px); }
+}

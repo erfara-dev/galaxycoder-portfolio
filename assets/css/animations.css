@@ -1,0 +1,122 @@
+/* ==========================================================================
+   animations.css — moderate-intensity motion. All of it is disabled or
+   collapsed to instant under prefers-reduced-motion (see bottom).
+   ========================================================================== */
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ring-in {
+  from { opacity: 0; transform: scale(0.92) rotate(-12deg); }
+  to { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+/* ---------- Hero entrance (pure CSS so it works even without JS) ---------- */
+.hero [data-hero] {
+  animation: rise-in 800ms var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 110ms + 80ms);
+}
+
+.hero__visual {
+  animation: ring-in 1100ms var(--ease) both;
+  animation-delay: 250ms;
+}
+
+/* ---------- Section reveal (enabled only when JS has added .js to <html>) ---------- */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 700ms var(--ease), transform 700ms var(--ease);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Mobile menu transition ---------- */
+@media (max-width: 899.98px) {
+  .mobile-menu {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-12px);
+    pointer-events: none;
+    transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility 0s linear var(--dur);
+  }
+
+  .mobile-menu.is-open {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+}
+
+/* ---------- Page transition ---------- */
+main {
+  animation: fade-in 450ms var(--ease) both;
+}
+
+body.is-leaving main {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .project-card:hover,
+  .skill-card:hover,
+  .pager__link:hover {
+    transform: none;
+  }
+
+  .project-card:hover .media > img {
+    transform: none;
+  }
+
+  body.is-leaving main {
+    opacity: 1;
+    transform: none;
+  }
+}

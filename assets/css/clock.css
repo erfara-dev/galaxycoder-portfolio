@@ -1,0 +1,145 @@
+/* ==========================================================================
+   clock.css — Galactic Clock (home page)
+   The SVG geometry lives in index.html; positions are set by orbital-clock.js.
+   Everything here is presentation: orbit lines, Sun UI, corona motion, legend.
+   ========================================================================== */
+
+.galaxy-clock {
+  --clock-rim: rgba(255, 255, 255, 0.28);
+  --clock-orbit: rgba(170, 177, 208, 0.26);
+  --clock-tick: rgba(170, 177, 208, 0.38);
+  --clock-mercury: #cfd3e4;
+  --clock-venus: #c3a9f2;
+  --clock-earth: #6cc7ff;
+  margin: 0;
+  width: 100%;
+  container-type: inline-size;        /* lets the Sun's digits scale with the figure */
+}
+
+:root[data-theme="light"] .galaxy-clock {
+  --clock-rim: rgba(14, 20, 48, 0.35);
+  --clock-orbit: rgba(30, 50, 110, 0.24);
+  --clock-tick: rgba(30, 50, 110, 0.4);
+  --clock-mercury: #7b8098;
+  --clock-venus: #8f6fe0;
+  --clock-earth: #1f78c8;
+}
+
+.galaxy-clock__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.galaxy-clock__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ---------- Orbits: hairlines, deliberately quiet ---------- */
+.gc-orbit { stroke: var(--clock-orbit); stroke-width: 0.8; }
+.gc-tick { stroke: var(--clock-tick); stroke-width: 0.7; }
+.gc-tick--major { stroke-width: 1.1; }
+
+.gc-trail--mercury { stroke: var(--clock-mercury); }
+.gc-trail--venus { stroke: var(--clock-venus); }
+.gc-trail--earth { stroke: var(--clock-earth); }
+
+.gc-body { stroke: var(--clock-rim); stroke-width: 0.6; }
+
+/* ---------- Sun ---------- */
+/* Light theme: the far glow is a warm wash, so keep it gentle on pale backgrounds. */
+:root[data-theme="light"] .gc-glow { opacity: 0.7; }
+
+.gc-corona { transform-origin: 200px 200px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .gc-corona--a { animation: gc-spin 140s linear infinite; }
+  .gc-corona--b { animation: gc-spin 220s linear infinite reverse; }
+  .gc-sun__halo { transform-origin: 200px 200px; animation: gc-breathe 9s ease-in-out infinite; }
+}
+@keyframes gc-spin { to { transform: rotate(360deg); } }
+@keyframes gc-breathe { 0%, 100% { transform: scale(1); opacity: 0.92; } 50% { transform: scale(1.035); opacity: 1; } }
+
+/* Digits sit on the photosphere. Dark ink on bright gold keeps them legible without a
+   container shape, and the soft light halo makes them read as etched, not stuck on. */
+.galaxy-clock__sun-ui {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24%;                         /* ≈ the Sun's disc (r 48 of 200) */
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+}
+
+.galaxy-clock__toggle {
+  display: grid;
+  justify-items: center;
+  gap: 0.18em;
+  width: 100%;
+  height: 100%;
+  align-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #2a1604;
+  font-family: var(--font-mono);
+  font-size: 3.5cqw;                  /* fallback below for browsers without container units */
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  text-shadow: 0 0 0.6em rgba(255, 244, 205, 0.85);
+  -webkit-tap-highlight-color: transparent;
+  transition: box-shadow var(--dur) var(--ease);
+}
+@supports not (font-size: 1cqw) { .galaxy-clock__toggle { font-size: clamp(0.6rem, 2.6vw, 0.95rem); } }
+
+.galaxy-clock__toggle:hover { box-shadow: 0 0 0 1px rgba(42, 22, 4, 0.25), 0 0 22px rgba(255, 220, 140, 0.6); }
+.galaxy-clock__toggle:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 4px; border-radius: 50%; }
+
+.galaxy-clock__time { display: block; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; white-space: nowrap; }
+.galaxy-clock__meridiem { font-size: 0.55em; font-weight: 500; letter-spacing: 0.16em; opacity: 0.7; }
+
+/* ---------- Caption + legend ---------- */
+.galaxy-clock__caption {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+.galaxy-clock__fig { display: flex; flex-wrap: wrap; gap: 0.2rem 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.galaxy-clock__fig strong { color: var(--accent-text); font-weight: 500; }
+
+.galaxy-clock__legend { display: grid; gap: 0.35rem; }
+.galaxy-clock__legend li {
+  display: grid;
+  grid-template-columns: 0.9rem 4.5rem 1fr;
+  align-items: center;
+  gap: 0.5rem;
+}
+.galaxy-clock__legend span { color: var(--text); }
+.galaxy-clock__legend b { font-weight: 400; color: var(--text-muted); }
+
+.gc-key { width: 0.65rem; height: 0.65rem; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
+.gc-key--mercury { background: var(--clock-mercury); color: var(--clock-mercury); }
+.gc-key--venus { background: var(--clock-venus); color: var(--clock-venus); }
+.gc-key--earth { background: var(--clock-earth); color: var(--clock-earth); }
+.gc-key--earth { width: 0.8rem; height: 0.8rem; margin: -0.075rem; }
+:root[data-theme="light"] .gc-key { box-shadow: none; }
+
+.galaxy-clock__date { display: grid; gap: 1px; }
+.galaxy-clock__date time { color: var(--text); letter-spacing: 0; }
+.galaxy-clock__date span { letter-spacing: 0.04em; }
+
+@media (max-width: 560px) {
+  .galaxy-clock__legend li { grid-template-columns: 0.9rem 4.2rem 1fr; }
+}

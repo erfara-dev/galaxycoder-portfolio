@@ -1,0 +1,211 @@
+/* ==========================================================================
+   responsive.css — breakpoints
+   Mobile 320–767 · Tablet 768–1023 · Laptop 1024–1439 · Desktop 1440+
+   Base styles are written desktop-first for layout, then collapsed here.
+   ========================================================================== */
+
+/* ---------- Large desktop ---------- */
+@media (min-width: 1440px) {
+  :root {
+    --header-h: 80px;
+  }
+}
+
+/* ---------- Laptop and below ---------- */
+@media (max-width: 1199.98px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .skill-card,
+  .skill-card--wide {
+    grid-column: auto;
+  }
+
+  .footer__top {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------- Mobile nav kicks in ---------- */
+@media (max-width: 899.98px) {
+  .nav,
+  .site-header__actions .btn--cta {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: inline-grid;
+  }
+
+  .mobile-menu__inner {
+    display: grid;
+    gap: var(--space-1);
+    padding-block: var(--space-4) var(--space-5);
+  }
+
+  .mobile-menu .nav__link {
+    min-height: 52px;
+    padding: 0;
+    font-size: 1.125rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .mobile-menu .nav__link::after {
+    display: none;
+  }
+
+  .mobile-menu .nav__link[aria-current] {
+    color: var(--accent-text);
+  }
+
+  .mobile-menu .btn {
+    margin-top: var(--space-4);
+  }
+}
+
+/* ---------- Tablet and below ---------- */
+@media (max-width: 1023.98px) {
+  .hero__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__visual {
+    width: min(100%, 360px);
+    order: -1;
+    justify-self: start;
+  }
+
+  .project-card--featured {
+    flex-direction: column;
+  }
+
+  .project-card--featured .media {
+    flex: none;
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+
+  .about {
+    grid-template-columns: 1fr;
+  }
+
+  .about__photo {
+    max-width: 380px;
+    margin-right: 16px;
+  }
+
+  .contact {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-grid > header {
+    position: static;
+  }
+
+  .meta-bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cards-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 767.98px) {
+  :root {
+    --header-h: 64px;
+  }
+
+  .hero__visual {
+    width: min(70%, 260px);
+  }
+
+  .hero__meta {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .hero__cta .btn {
+    flex: 1 1 100%;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .form__actions .btn {
+    width: 100%;
+  }
+
+  .footer__top {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .pager {
+    grid-template-columns: 1fr;
+  }
+
+  .pager__link--next {
+    text-align: left;
+  }
+
+  .pager__link--next .pager__dir {
+    justify-content: flex-start;
+  }
+
+  .feature {
+    grid-template-columns: 1fr;
+  }
+
+  .feature .status {
+    justify-self: start;
+    order: -1;
+  }
+
+  .meta-bar {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .timeline__item {
+    padding: var(--space-4);
+  }
+}
+
+/* ---------- Very small phones (320px) ---------- */
+@media (max-width: 380px) {
+  .brand__text {
+    font-size: 1rem;
+  }
+
+  .site-header__actions {
+    gap: var(--space-2);
+  }
+
+  .btn {
+    padding-inline: 1.1rem;
+  }
+}
