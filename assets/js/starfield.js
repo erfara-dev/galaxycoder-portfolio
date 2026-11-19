@@ -12,8 +12,12 @@
   var hardwareThreads = navigator.hardwareConcurrency || 0;
   var deviceMemory = navigator.deviceMemory || 0;
   var lowPower = (hardwareThreads > 0 && hardwareThreads <= 4) || (deviceMemory > 0 && deviceMemory <= 4);
-  var frameInterval = lowPower ? 1000 / 18 : 1000 / 24;
+  var frameInterval = lowPower ? 1000 / 20 : 1000 / 30;
   var maxStars = lowPower ? 120 : 180;
+  var localHost = window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "[::1]";
+  var motionTest = localHost && new URLSearchParams(window.location.search).get("motionTest") === "1";
 
   function reduced() { return !!(motionQuery && motionQuery.matches); }
   function pointerEnabled() { return !!(pointerQuery && pointerQuery.matches && !reduced()); }
@@ -21,7 +25,7 @@
   function randomBetween(min, max) { return min + Math.random() * (max - min); }
 
   function scheduleShootingStar(now) {
-    nextShootingAt = now + randomBetween(18000, 42000);
+    nextShootingAt = now + (motionTest ? randomBetween(1200, 2400) : randomBetween(12000, 25000));
   }
 
   function seed() {
@@ -30,7 +34,7 @@
     for (var i = 0; i < count; i++) {
       var roll = Math.random();
       var layer = roll < 0.45 ? 0 : roll < 0.82 ? 1 : 2;
-      var speed = layer === 0 ? 0.012 : layer === 1 ? 0.045 : 0.13;
+      var speed = layer === 0 ? 0.14 : layer === 1 ? 0.48 : 1.05;
       var angle = Math.random() * Math.PI * 2;
       stars.push({
         x: Math.random() * w,
@@ -38,7 +42,7 @@
         r: layer === 2 ? randomBetween(0.55, 1.3) : randomBetween(0.3, 0.9),
         base: randomBetween(0.2, 0.66),
         twinkle: randomBetween(0.18, 0.62),
-        twinkleSpeed: randomBetween(0.00042, 0.00115),
+        twinkleSpeed: randomBetween(0.0006, 0.0015),
         phase: Math.random() * Math.PI * 2,
         vx: Math.cos(angle) * speed * randomBetween(0.65, 1.35),
         vy: Math.sin(angle) * speed * randomBetween(0.65, 1.35),
@@ -61,7 +65,7 @@
         dy: Math.sin(angle) * distance,
         duration: randomBetween(850, 1450),
         started: t,
-        tail: randomBetween(42, 76)
+        tail: randomBetween(56, 94)
       };
       nextShootingAt = Infinity;
     }
@@ -83,9 +87,9 @@
     var gradient = ctx.createLinearGradient(tailX, tailY, headX, headY);
     var color = isLight() ? "44,58,134" : "161,228,255";
     gradient.addColorStop(0, "rgba(" + color + ",0)");
-    gradient.addColorStop(1, "rgba(" + color + "," + (0.72 * fade) + ")");
+    gradient.addColorStop(1, "rgba(" + color + "," + (0.82 * fade) + ")");
     ctx.strokeStyle = gradient;
-    ctx.lineWidth = 1.25;
+    ctx.lineWidth = 1.5;
     ctx.lineCap = "round";
     ctx.beginPath();
     ctx.moveTo(tailX, tailY);
@@ -95,8 +99,8 @@
     ctx.globalAlpha = 0.8 * fade;
     ctx.fillStyle = isLight() ? "#2c3a86" : "#c8f1ff";
     ctx.beginPath();
-    ctx.arc(headX, headY, 4.2, 0, Math.PI * 2);
-    ctx.globalAlpha = 0.12 * fade;
+    ctx.arc(headX, headY, 4.6, 0, Math.PI * 2);
+    ctx.globalAlpha = 0.16 * fade;
     ctx.fill();
     ctx.globalAlpha = 0.8 * fade;
     ctx.beginPath();

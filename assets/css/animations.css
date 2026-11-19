@@ -22,10 +22,39 @@
   to { opacity: 1; transform: scale(1) rotate(0); }
 }
 
+@keyframes headline-reveal {
+  from { clip-path: inset(0 0 92%); opacity: 0.35; transform: translateY(12px); }
+  to { clip-path: inset(0); opacity: 1; transform: translateY(0); }
+}
+
+@keyframes accent-reveal {
+  from { background-position: 100% 0; }
+  to { background-position: 0 0; }
+}
+
 /* ---------- Hero entrance (pure CSS so it works even without JS) ---------- */
-.hero [data-hero] {
+.hero [data-hero],
+.page-hero [data-hero] {
   animation: rise-in 650ms var(--ease) both;
   animation-delay: calc(var(--i, 0) * 80ms + 60ms);
+}
+
+.hero .hero__title[data-hero],
+.page-hero .page-hero__title[data-hero] {
+  animation-name: headline-reveal;
+  animation-duration: 820ms;
+}
+
+.hero__title em {
+  background-size: 180% 100%;
+  animation: accent-reveal 900ms var(--ease) both;
+  animation-delay: calc(var(--i, 1) * 80ms + 220ms);
+}
+
+.hero [data-hero].hero__lead,
+.page-hero [data-hero].page-hero__lead {
+  animation-name: rise-in;
+  animation-duration: 580ms;
 }
 
 .hero__visual {
