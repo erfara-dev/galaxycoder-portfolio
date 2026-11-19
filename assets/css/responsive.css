@@ -81,16 +81,6 @@
     justify-self: start;
   }
 
-  .project-card--featured {
-    flex-direction: column;
-  }
-
-  .project-card--featured .media {
-    flex: none;
-    min-height: 0;
-    aspect-ratio: 16 / 10;
-  }
-
   .about {
     grid-template-columns: 1fr;
   }
@@ -98,6 +88,12 @@
   .about__photo {
     max-width: 380px;
     margin-right: 16px;
+  }
+
+  .about-developer__grid,
+  .about-future__grid,
+  .about-interests__grid {
+    grid-template-columns: 1fr;
   }
 
   .contact {
@@ -192,6 +188,21 @@
 
   .timeline__item {
     padding: var(--space-4);
+  }
+
+  .about-interest {
+    grid-template-columns: minmax(5rem, 0.42fr) minmax(0, 1fr);
+    gap: var(--space-3);
+    padding: var(--space-4);
+  }
+
+  .about-interest__art {
+    min-height: 6rem;
+    aspect-ratio: 1;
+  }
+
+  .about-interest__swatch {
+    width: 3.25rem;
   }
 }
 

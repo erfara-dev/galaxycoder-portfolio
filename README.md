@@ -131,7 +131,7 @@ I did not invent personal data, but some copy had to be drafted from V1. Please 
 - **GitHub URL** — V1 used two different handles: `github.com/ditoerfana` (footer) and `github.com/erfara-dev` (contact page). V2 uses `erfara-dev`. Search `erfara-dev` to change it.
 - **Phone number** — V1 listed `+62 859-1838-93590` (one digit too many). It is intentionally **not** shown in V2.
 - **VoliBooking** is the Class XI single-vendor concept and predecessor to LapanganKu; LapanganKu is a substantially different multivendor platform with distinct features and workflows.
-- **Education** timeline entry is an explicit placeholder; add your real institution/programme in `journey.html`.
+- **Education** details on About and Journey are based on the confirmed school, programme, grade and academic year; no extra milestone dates are inferred.
 - **VoliBooking source code** is no longer available. Its case study is limited to confirmed history, single-vendor architecture, PHPMailer focus and technologies; no unverified implementation details are inferred.
 - **Custom Controller** and **Excel Tools** are concept-only projects marked `IDEA`; their planned features are not claims of implementation.
 - **Universal Website** is in development: Core extraction and BOOK are underway; BUY, BOTH, file-based customization, installer and package builder are planned or not yet implemented as labelled on its detail page.

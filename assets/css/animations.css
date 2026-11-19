@@ -8,7 +8,7 @@
 }
 
 @keyframes rise-in {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -18,32 +18,52 @@
 }
 
 @keyframes ring-in {
-  from { opacity: 0; transform: scale(0.92) rotate(-12deg); }
+  from { opacity: 0; transform: scale(0.96) rotate(-6deg); }
   to { opacity: 1; transform: scale(1) rotate(0); }
 }
 
 /* ---------- Hero entrance (pure CSS so it works even without JS) ---------- */
 .hero [data-hero] {
-  animation: rise-in 800ms var(--ease) both;
-  animation-delay: calc(var(--i, 0) * 110ms + 80ms);
+  animation: rise-in 650ms var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 80ms + 60ms);
 }
 
 .hero__visual {
-  animation: ring-in 1100ms var(--ease) both;
-  animation-delay: 250ms;
+  animation: ring-in 950ms var(--ease) both;
+  animation-delay: 480ms;
 }
 
-/* ---------- Section reveal (enabled only when JS has added .js to <html>) ---------- */
-.js .reveal {
+/* ---------- Section reveal (enabled only after the observer is ready) ---------- */
+.motion-ready .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 700ms var(--ease), transform 700ms var(--ease);
-  transition-delay: calc(var(--i, 0) * 90ms);
+  transform: translateY(18px);
+  transition: opacity 620ms var(--ease), transform 620ms var(--ease);
+  transition-delay: calc(var(--i, 0) * 65ms);
 }
 
-.js .reveal.is-visible {
+.motion-ready .reveal.is-visible {
   opacity: 1;
   transform: none;
+}
+
+.motion-ready .reveal-heading .reveal-step {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 430ms var(--ease), transform 430ms var(--ease);
+  transition-delay: calc(var(--reveal-step, 0) * 85ms);
+}
+
+.motion-ready .reveal-heading.is-visible .reveal-step {
+  opacity: 1;
+  transform: none;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .nav__link:hover { transform: translateY(-1px); }
+  .btn:hover:not(:active):not([disabled]):not([aria-disabled="true"]) { transform: translateY(-2px); }
+  .info-card:hover,
+  .timeline__item:hover,
+  .about-interest:hover { transform: translateY(-3px); }
 }
 
 /* ---------- Mobile menu transition ---------- */
@@ -100,18 +120,36 @@ body.is-leaving main {
     transition-delay: 0s !important;
   }
 
-  .js .reveal {
-    opacity: 1;
-    transform: none;
+  .motion-ready .reveal,
+  .motion-ready .reveal.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .motion-ready .reveal-heading .reveal-step {
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .project-card:hover,
   .skill-card:hover,
-  .pager__link:hover {
+  .pager__link:hover,
+  .nav__link:hover,
+  .btn:hover,
+  .info-card:hover,
+  .timeline__item:hover,
+  .about-interest:hover {
     transform: none;
   }
 
   .project-card:hover .media > img {
+    transform: none;
+  }
+
+  .btn:active,
+  .icon-btn:active,
+  .btn:hover .icon,
+  .link-arrow:hover .icon {
     transform: none;
   }
 

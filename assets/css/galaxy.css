@@ -144,6 +144,11 @@ h2 em {
   box-shadow: var(--shadow), var(--glow);
 }
 
+.about-interest:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow), var(--glow);
+}
+
 /* Crosshair corner marks — purely decorative */
 .project-card::after, .skill-card::after, .form-card::after, .info-card::after {
   content: "+";
