@@ -21,14 +21,14 @@
 
   /* Each entry starts at its local time (24-hour "HH:MM") and runs until the next entry
      starts; the last entry wraps past midnight into the first. Order does not matter.
-       06:00–06:59  sunrise   Moon → Sun transition plays at 06:00
-       07:00–17:59  noon      Sun
-       18:00–18:59  sunset    Sun remains active and warms toward twilight
-       19:00–05:59  night     Moon                                                   */
+       05:00–06:59  sunrise   Moon → Sun transition plays at 05:00
+       07:00–15:59  noon      Sun
+       16:00–18:59  sunset    Sun remains active and warms toward twilight
+       19:00–04:59  night     Moon                                                   */
   var SCHEDULE = [
-    { phase: "sunrise", start: "06:00" },
+    { phase: "sunrise", start: "05:00" },
     { phase: "noon",    start: "07:00" },
-    { phase: "sunset",  start: "18:00" },
+    { phase: "sunset",  start: "16:00" },
     { phase: "night",   start: "19:00" }
   ];
 

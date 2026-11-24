@@ -86,7 +86,7 @@ Fonts (Google Fonts): Sora (headings), DM Sans (body), JetBrains Mono (labels/te
 | `assets/js/celestial-sky.js`, `assets/css/celestial.css` | Sky gradients, clouds, rays, particles, phase tokens, selector styles. |
 | `assets/images/clock/planet.webp` | Ringed Planet (minutes) from the Stitch prototype. |
 
-**Changing the schedule:** edit `SCHEDULE` at the top of `celestial-core.js` (24-hour `"HH:MM"` start times; default Sunrise 06:00, Noon 07:00, Sunset 18:00, Night 19:00). Nothing else holds time boundaries. `CLOCK.hourZeroAt` there sets which hour is at the top of Earth's ring (0 = midnight, 12 = noon).
+**Changing the schedule:** edit `SCHEDULE` at the top of `celestial-core.js` (24-hour `"HH:MM"` start times; default Sunrise 05:00, Noon 07:00, Sunset 16:00, Night 19:00). Nothing else holds time boundaries. `CLOCK.hourZeroAt` there sets which hour is at the top of Earth's ring (0 = midnight, 12 = noon).
 
 | Body | Represents | One revolution |
 |---|---|---|
