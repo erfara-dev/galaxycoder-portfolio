@@ -1,0 +1,269 @@
+/* ==========================================================================
+   celestial.css — Dual Celestial Clock: phase environment (every page)
+   Driven by two attributes on <html> set by celestial-core.js:
+     data-phase  noon | sunrise | sunset | night   → sky, clouds, stars, accent
+     data-theme  light | dark                      → UI polarity (existing tokens, main.css)
+   Contents: smooth token fade · sky · clouds · particles · phase tokens · controls
+   ========================================================================== */
+
+/* ---------- Smooth colour fade when polarity flips (class added briefly by celestial-core.js) ---------- */
+html.phase-fade,
+html.phase-fade *:not(.sky, .sky *),
+html.phase-fade *:not(.sky, .sky *)::before,
+html.phase-fade *:not(.sky, .sky *)::after {
+  transition: background-color 900ms ease, color 900ms ease, border-color 900ms ease,
+    fill 900ms ease, stroke 900ms ease, box-shadow 900ms ease !important;
+}
+
+/* ---------- Animatable colours for clouds (graceful: snaps where @property is unsupported) ---------- */
+@property --ct { syntax: "<color>"; inherits: true; initial-value: #ffffff; }
+@property --cb { syntax: "<color>"; inherits: true; initial-value: #d8e9fb; }
+@property --co { syntax: "<number>"; inherits: true; initial-value: 0.9; }
+
+/* ---------- Sky container ---------- */
+.sky {
+  --cloud-a: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20400%20170%22%3E%3Cdefs%3E%3Cfilter%20id=%22b%22%20x=%22-20%25%22%20y=%22-40%25%22%20width=%22140%25%22%20height=%22180%25%22%3E%3CfeGaussianBlur%20stdDeviation=%227%22/%3E%3C/filter%3E%3C/defs%3E%3Cg%20fill=%22%23fff%22%20filter=%22url(%23b)%22%3E%3Cellipse%20cx=%22110%22%20cy=%22112%22%20rx=%2290%22%20ry=%2236%22/%3E%3Cellipse%20cx=%22200%22%20cy=%2286%22%20rx=%2282%22%20ry=%2254%22/%3E%3Cellipse%20cx=%22290%22%20cy=%22106%22%20rx=%2288%22%20ry=%2240%22/%3E%3Cellipse%20cx=%22200%22%20cy=%22124%22%20rx=%22170%22%20ry=%2226%22/%3E%3C/g%3E%3C/svg%3E");
+  --cloud-b: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20400%20170%22%3E%3Cdefs%3E%3Cfilter%20id=%22b%22%20x=%22-20%25%22%20y=%22-40%25%22%20width=%22140%25%22%20height=%22180%25%22%3E%3CfeGaussianBlur%20stdDeviation=%227%22/%3E%3C/filter%3E%3C/defs%3E%3Cg%20fill=%22%23fff%22%20filter=%22url(%23b)%22%3E%3Cellipse%20cx=%2290%22%20cy=%22114%22%20rx=%2270%22%20ry=%2232%22/%3E%3Cellipse%20cx=%22170%22%20cy=%2292%22%20rx=%2270%22%20ry=%2248%22/%3E%3Cellipse%20cx=%22250%22%20cy=%2284%22%20rx=%2260%22%20ry=%2242%22/%3E%3Cellipse%20cx=%22320%22%20cy=%22112%22%20rx=%2266%22%20ry=%2234%22/%3E%3Cellipse%20cx=%22200%22%20cy=%22128%22%20rx=%22180%22%20ry=%2224%22/%3E%3C/g%3E%3C/svg%3E");
+  --cloud-c: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20400%20170%22%3E%3Cdefs%3E%3Cfilter%20id=%22b%22%20x=%22-20%25%22%20y=%22-40%25%22%20width=%22140%25%22%20height=%22180%25%22%3E%3CfeGaussianBlur%20stdDeviation=%227%22/%3E%3C/filter%3E%3C/defs%3E%3Cg%20fill=%22%23fff%22%20filter=%22url(%23b)%22%3E%3Cellipse%20cx=%22130%22%20cy=%22110%22%20rx=%22110%22%20ry=%2234%22/%3E%3Cellipse%20cx=%22250%22%20cy=%22100%22%20rx=%22100%22%20ry=%2240%22/%3E%3Cellipse%20cx=%22190%22%20cy=%2284%22%20rx=%2260%22%20ry=%2240%22/%3E%3Cellipse%20cx=%22200%22%20cy=%22128%22%20rx=%22170%22%20ry=%2222%22/%3E%3C/g%3E%3C/svg%3E");
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+  transition: --ct 2800ms ease, --cb 2800ms ease, --co 2800ms ease;
+  --mote: rgba(255, 255, 255, 0.55);
+}
+
+.sky__layer { position: absolute; inset: 0; opacity: 0; transition: opacity 2800ms ease; }
+
+:root[data-phase="noon"] .sky__layer--noon,
+:root[data-phase="sunrise"] .sky__layer--sunrise,
+:root[data-phase="sunset"] .sky__layer--sunset,
+:root[data-phase="night"] .sky__layer--night { opacity: 1; }
+
+.sky__layer--noon {
+  background:
+    radial-gradient(60% 46% at 80% 8%, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0) 70%),
+    linear-gradient(180deg, #3f98ee 0%, #6fb8f8 34%, #a3d4fc 68%, #d3ecff 100%);
+}
+.sky__layer--sunrise {
+  background:
+    radial-gradient(90% 50% at 74% 104%, rgba(255, 205, 120, 0.9), rgba(255, 150, 120, 0.42) 42%, rgba(255, 150, 120, 0) 72%),
+    linear-gradient(90deg, rgba(6, 10, 28, 0.5), rgba(6, 10, 28, 0) 62%),
+    linear-gradient(180deg, #1b2a66 0%, #3d3f8f 36%, #7b64ae 66%, #d99a86 100%);
+}
+.sky__layer--sunset {
+  background:
+    radial-gradient(90% 50% at 26% 106%, rgba(255, 126, 64, 0.88), rgba(232, 84, 124, 0.42) 42%, rgba(232, 84, 124, 0) 72%),
+    linear-gradient(90deg, rgba(6, 8, 26, 0.55), rgba(6, 8, 26, 0) 62%),
+    linear-gradient(180deg, #19163f 0%, #432a6c 38%, #8e3f74 70%, #dc7a54 100%);
+}
+.sky__layer--night {
+  background:
+    radial-gradient(1100px 620px at 78% -8%, rgba(64, 59, 120, 0.55), transparent 70%),
+    radial-gradient(900px 600px at 6% 38%, rgba(23, 27, 54, 0.7), transparent 70%),
+    linear-gradient(180deg, #050a1c 0%, #0a1230 55%, #0f1a42 100%);
+}
+
+/* ---------- Sun-ray beams (Noon) ---------- */
+.sky__rays {
+  position: absolute;
+  inset: -20% -10% 20% 20%;
+  opacity: 0;
+  transform-origin: 100% 0;
+  background: conic-gradient(from 196deg at 100% 0%,
+    transparent 0deg, rgba(255, 255, 255, 0.34) 5deg, transparent 12deg,
+    rgba(255, 255, 255, 0.22) 19deg, transparent 27deg,
+    rgba(255, 255, 255, 0.28) 34deg, transparent 42deg, transparent 90deg);
+  -webkit-mask-image: radial-gradient(90% 90% at 100% 0%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(90% 90% at 100% 0%, #000 0%, transparent 78%);
+  transition: opacity 2800ms ease;
+}
+:root[data-phase="noon"] .sky__rays { opacity: 0.8; }
+:root[data-phase="sunrise"] .sky__rays { opacity: 0.18; }
+
+/* ---------- Clouds ---------- */
+.sky__clouds { position: absolute; inset: 0; }
+
+.cloud {
+  position: absolute;
+  left: 0;
+  top: var(--y);
+  width: var(--w);
+  aspect-ratio: 400 / 170;
+  background: linear-gradient(180deg, var(--ct), var(--cb));
+  -webkit-mask: var(--shape) center / 100% 100% no-repeat;
+  mask: var(--shape) center / 100% 100% no-repeat;
+  opacity: calc(var(--co) * var(--d));
+  will-change: transform;
+  transform: translate3d(-50vw, 0, 0);
+}
+
+.cloud--1 { --shape: var(--cloud-a); --y: 6%;  --w: 34vw; --d: 1;    --t: 190s; --o: -20s; }
+.cloud--2 { --shape: var(--cloud-b); --y: 20%; --w: 26vw; --d: 0.8;  --t: 240s; --o: -150s; }
+.cloud--3 { --shape: var(--cloud-c); --y: 34%; --w: 40vw; --d: 0.9;  --t: 160s; --o: -95s; }
+.cloud--4 { --shape: var(--cloud-a); --y: 52%; --w: 30vw; --d: 0.7;  --t: 260s; --o: -200s; }
+.cloud--5 { --shape: var(--cloud-b); --y: 68%; --w: 36vw; --d: 0.8;  --t: 210s; --o: -60s; }
+.cloud--6 { --shape: var(--cloud-c); --y: 12%; --w: 22vw; --d: 0.6;  --t: 300s; --o: -250s; }
+.cloud--7 { --shape: var(--cloud-a); --y: 44%; --w: 20vw; --d: 0.55; --t: 320s; --o: -120s; }
+.cloud--8 { --shape: var(--cloud-b); --y: 80%; --w: 28vw; --d: 0.6;  --t: 280s; --o: -40s; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .cloud { animation: cloud-drift var(--t) linear var(--o) infinite; }
+}
+@keyframes cloud-drift {
+  from { transform: translate3d(-50vw, 0, 0); }
+  to { transform: translate3d(110vw, 0, 0); }
+}
+/* Static fallback: without motion the clouds simply sit at spread-out positions. */
+@media (prefers-reduced-motion: reduce) {
+  .cloud--1 { transform: translate3d(8vw, 0, 0); }   .cloud--2 { transform: translate3d(62vw, 0, 0); }
+  .cloud--3 { transform: translate3d(30vw, 0, 0); }  .cloud--4 { transform: translate3d(70vw, 0, 0); }
+  .cloud--5 { transform: translate3d(2vw, 0, 0); }   .cloud--6 { transform: translate3d(44vw, 0, 0); }
+  .cloud--7 { transform: translate3d(84vw, 0, 0); }  .cloud--8 { transform: translate3d(48vw, 0, 0); }
+}
+
+@media (max-width: 767.98px) { .cloud--6, .cloud--7, .cloud--8 { display: none; } }
+
+/* Cloud colour per phase: lit top, shaded underside. */
+:root[data-phase="noon"] .sky    { --ct: #ffffff; --cb: #d6e8fb; --co: 0.95; --mote: rgba(255, 255, 255, 0.6); }
+:root[data-phase="sunrise"] .sky { --ct: #ffe3c6; --cb: #c98fae; --co: 0.62; --mote: rgba(255, 214, 150, 0.5); }
+:root[data-phase="sunset"] .sky  { --ct: #ffc29a; --cb: #a8507f; --co: 0.7;  --mote: rgba(255, 170, 140, 0.45); }
+:root[data-phase="night"] .sky   { --ct: #36497a; --cb: #1a2550; --co: 0.16; --mote: rgba(160, 205, 255, 0.5); }
+
+/* ---------- Floating particles (dust in daylight, cosmic dust at night) ---------- */
+.sky__motes {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: calc(100% + 600px);
+  background-image:
+    radial-gradient(1.6px 1.6px at 12% 18%, var(--mote) 50%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 38% 64%, var(--mote) 50%, transparent 100%),
+    radial-gradient(2px 2px at 61% 30%, var(--mote) 50%, transparent 100%),
+    radial-gradient(1.3px 1.3px at 84% 78%, var(--mote) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 72% 8%, var(--mote) 50%, transparent 100%),
+    radial-gradient(1.1px 1.1px at 24% 90%, var(--mote) 50%, transparent 100%);
+  background-size: 600px 600px;
+  opacity: 0.7;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sky__motes { animation: motes-rise 90s linear infinite; }
+  .sky__rays { animation: rays-breathe 14s ease-in-out infinite alternate; }
+}
+@keyframes motes-rise { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(0, -600px, 0); } }
+@keyframes rays-breathe { from { transform: rotate(-1.5deg); } to { transform: rotate(1.5deg); } }
+
+.sky.is-paused *, .sky.is-paused { animation-play-state: paused !important; }
+
+/* Stars (starfield.js) belong to the dark sky; they fade out in daylight. */
+.starfield { transition: opacity 2800ms ease; }
+:root[data-phase="noon"] { --star-opacity: 0; }
+:root[data-phase="sunrise"], :root[data-phase="sunset"] { --star-opacity: 0.5; }
+:root[data-phase="night"] { --star-opacity: 1; }
+:root[data-phase="noon"] .nebula { opacity: 0; }
+
+/* ---------- Phase tokens (layered on the existing light / dark tokens) ---------- */
+/* Noon is the light theme over a bright sky: strengthen secondary text and glass so nothing washes out. */
+:root[data-theme="light"][data-phase="noon"] {
+  --text: #0a1030;
+  --text-muted: #26335f;
+  --text-dim: #3b4694;
+  --border: rgba(20, 45, 100, 0.22);
+  --border-strong: rgba(20, 45, 100, 0.4);
+  --glass: rgba(255, 255, 255, 0.72);
+  --header-bg: rgba(226, 242, 255, 0.74);
+  --ring-line: rgba(20, 45, 100, 0.26);
+}
+/* Dawn and dusk are dark-polarity; warm the accent. */
+:root[data-theme="dark"][data-phase="sunrise"] {
+  --accent-text: #ffcf94;
+  --glass: rgba(22, 24, 62, 0.58);
+  --header-bg: rgba(14, 18, 52, 0.55);
+  --text-muted: #c4c9e6;
+}
+:root[data-theme="dark"][data-phase="sunset"] {
+  --accent-text: #ffb89c;
+  --glass: rgba(26, 20, 58, 0.6);
+  --header-bg: rgba(20, 14, 48, 0.55);
+  --text-muted: #cfc5e6;
+}
+:root[data-theme="dark"][data-phase="sunrise"] .hero__title em,
+:root[data-theme="dark"][data-phase="sunset"] .hero__title em {
+  background: linear-gradient(100deg, var(--accent-text), #f5f6fc 130%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* ---------- Phase selector (beneath the clock) ---------- */
+.celestial-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-top: var(--space-4);
+}
+.cc-phase-wrap {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  max-height: 0;
+  margin-top: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-0.25rem);
+  visibility: hidden;
+  pointer-events: none;
+  transition: max-height 240ms ease, margin-top 240ms ease, opacity 180ms ease,
+    transform 240ms ease, visibility 0s linear 240ms;
+}
+:root[data-celestial-mode="manual"] .cc-phase-wrap {
+  max-height: 56px;
+  margin-top: var(--space-2);
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+.cc-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-full);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.cc-btn {
+  min-height: 34px;
+  padding: 0 0.8rem;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.cc-btn:hover:not(:disabled):not(.is-active) { background: var(--accent-soft); color: var(--text); }
+.cc-btn.is-active { background: var(--accent); color: var(--accent-contrast); }
+.cc-btn:disabled { cursor: not-allowed; opacity: 0.6; }
+.cc-btn.is-active:disabled { opacity: 1; }
+.cc-btn:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+
+@media (max-width: 420px) {
+  .cc-btn { padding: 0 0.55rem; font-size: 0.625rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cc-phase-wrap { transition: none; transform: none; }
+}
