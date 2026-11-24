@@ -22,16 +22,6 @@
   to { opacity: 1; transform: scale(1) rotate(0); }
 }
 
-@keyframes headline-reveal {
-  from { clip-path: inset(0 0 92%); opacity: 0.35; transform: translateY(12px); }
-  to { clip-path: inset(0); opacity: 1; transform: translateY(0); }
-}
-
-@keyframes accent-reveal {
-  from { background-position: 100% 0; }
-  to { background-position: 0 0; }
-}
-
 /* ---------- Hero entrance (pure CSS so it works even without JS) ---------- */
 .hero [data-hero],
 .page-hero [data-hero] {
@@ -39,22 +29,9 @@
   animation-delay: calc(var(--i, 0) * 80ms + 60ms);
 }
 
-.hero .hero__title[data-hero],
-.page-hero .page-hero__title[data-hero] {
-  animation-name: headline-reveal;
-  animation-duration: 820ms;
-}
-
-.hero__title em {
-  background-size: 180% 100%;
-  animation: accent-reveal 900ms var(--ease) both;
-  animation-delay: calc(var(--i, 1) * 80ms + 220ms);
-}
-
-.hero [data-hero].hero__lead,
-.page-hero [data-hero].page-hero__lead {
-  animation-name: rise-in;
-  animation-duration: 580ms;
+/* Case-study breadcrumb enters with the first hero item rather than popping in. */
+.page-hero .crumbs {
+  animation: fade-in 500ms var(--ease) both;
 }
 
 .hero__visual {
@@ -67,7 +44,8 @@
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 620ms var(--ease), transform 620ms var(--ease);
-  transition-delay: calc(var(--i, 0) * 65ms);
+  /* --stagger is set by animations.js from arrival order; --i is the static fallback. */
+  transition-delay: calc(min(var(--stagger, var(--i, 0)), 6) * 65ms);
 }
 
 .motion-ready .reveal.is-visible {
@@ -87,12 +65,90 @@
   transform: none;
 }
 
+/* Headlines also unveil through a soft mask (clip-path: paint only, no layout work).
+   The generous negative inset at rest keeps descenders and the gradient <em> uncut. */
+.motion-ready .reveal-heading h1.reveal-step,
+.motion-ready .reveal-heading h2.reveal-step {
+  clip-path: inset(0 0 100% 0);
+  transition: opacity 430ms var(--ease), transform 430ms var(--ease), clip-path 650ms var(--ease);
+  transition-delay: calc(var(--reveal-step, 0) * 85ms);
+}
+
+.motion-ready .reveal-heading.is-visible h1.reveal-step,
+.motion-ready .reveal-heading.is-visible h2.reveal-step {
+  clip-path: inset(-0.3em -0.3em -0.3em -0.3em);
+}
+
+/* Hero headline: same mask, driven by the entrance keyframes. */
+.hero__title[data-hero] {
+  animation-name: rise-in, mask-in;
+  animation-duration: 650ms, 800ms;
+}
+
+@keyframes mask-in {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(-0.3em -0.3em -0.3em -0.3em); }
+}
+
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .nav__link:hover { transform: translateY(-1px); }
   .btn:hover:not(:active):not([disabled]):not([aria-disabled="true"]) { transform: translateY(-2px); }
   .info-card:hover,
   .timeline__item:hover,
   .about-interest:hover { transform: translateY(-3px); }
+}
+
+/* ---------- Focus feedback: keyboard users get the same glow pointer users get ---------- */
+.btn:focus-visible,
+.nav__link:focus-visible,
+.icon-btn:focus-visible,
+.link-arrow:focus-visible,
+.pager__link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px var(--accent-soft), var(--glow);
+}
+
+.project-card:focus-within,
+.skill-card:focus-within {
+  border-color: var(--border-strong);
+}
+
+/* ---------- Brand mark: the planet takes a short step along its orbit on hover ---------- */
+.brand__planet {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  transition: transform 900ms var(--ease);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .brand:hover .brand__planet,
+  .brand:focus-visible .brand__planet { transform: rotate(50deg); }
+}
+
+/* ---------- Atmosphere: a faint haze that drifts far slower than the stars ----------
+   Compositor-only (transform/opacity), created by starfield.js behind the canvas. */
+.nebula {
+  position: fixed;
+  inset: -8%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 36% at 72% 22%, color-mix(in srgb, var(--violet) 70%, transparent), transparent 70%),
+    radial-gradient(34% 30% at 18% 74%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
+  opacity: 0.55;
+  will-change: transform, opacity;
+}
+
+:root[data-theme="light"] .nebula { opacity: 0.3; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .nebula { animation: nebula-drift 120s ease-in-out infinite alternate; }
+}
+
+@keyframes nebula-drift {
+  from { transform: translate3d(-1.2%, -0.8%, 0); opacity: 0.45; }
+  to { transform: translate3d(1.2%, 0.8%, 0); opacity: 0.62; }
 }
 
 /* ---------- Mobile menu transition ---------- */
@@ -186,4 +242,25 @@ body.is-leaving main {
     opacity: 1;
     transform: none;
   }
+
+  .motion-ready .reveal-heading h1.reveal-step,
+  .motion-ready .reveal-heading h2.reveal-step,
+  .hero__title[data-hero] {
+    clip-path: none !important;
+  }
+
+  .nebula { animation: none; }
+  .brand__planet { transition: none; }
+}
+
+/* ---------- Print: never print half-revealed content ---------- */
+@media print {
+  .motion-ready .reveal,
+  .motion-ready .reveal-heading .reveal-step {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+
+  .nebula { display: none; }
 }

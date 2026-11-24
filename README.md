@@ -68,29 +68,38 @@ The contact form on `contact.html` posts to EmailJS's public REST endpoint (no S
 
 Form behaviour: required fields (first name, email, subject, message), email-format check, loading state, duplicate-submit lock, success only after HTTP 200, error state with fallback email, hidden honeypot field (`website`).
 
-## Theme
+## Theme & celestial phases
 
-Two themes built on semantic tokens in `assets/css/main.css`: **Deep Space** (dark, default; from the Stitch "Deep Space Observatory" design) and **Daylight Observatory** (light; designed for this build, since the Stitch export is dark-only). Choice is saved in `localStorage` (`dito-theme`); the OS preference is used only when nothing is saved. `galaxy.css` holds the glass surfaces, header/footer, chips and form skin; it uses tokens only.
+The site theme is now driven by the **Dual Celestial Clock phase** (see below). `<html data-phase>` (noon · sunrise · sunset · night) controls the sky, clouds and stars; `<html data-theme>` keeps the existing token polarity: **Noon = light** ("Daylight Observatory"), **Sunrise / Sunset / Night = dark** ("Deep Space"). The header sun/moon button is a shortcut that switches to Manual mode and jumps to Night or Noon. The old `dito-theme` key is no longer used.
 
 Fonts (Google Fonts): Sora (headings), DM Sans (body), JetBrains Mono (labels/telemetry). Icons stay inline SVG. No framework, no Tailwind, no build step.
 
-## Galactic Clock (home page)
+## Dual Celestial Clock (home page)
 
-`assets/js/orbital-clock.js` + `assets/css/clock.css`, markup in `index.html`.
+| File | Role |
+|---|---|
+| `assets/js/celestial-core.js` | Loaded in `<head>` on every page. **Phase schedule (`SCHEDULE`)**, phase metadata, detection, preference storage, first-paint boot. |
+| `assets/js/celestial-phase.js` | Controller: Automatic / Manual, boundary timer, request queue. No animation. |
+| `assets/js/celestial-transition.js` | Sunrise/Sunset choreography as a pure function of time (`sample`) + runner. All timings in `TIMING`. |
+| `assets/js/orbital-clock.js` | Clock maths (`GalacticClockMath`), digits, indicators, Sun/Moon poses, presenter. |
+| `assets/js/celestial-controls.js` | Automatic/Manual + Noon/Sunrise/Sunset/Night selector beneath the clock. |
+| `assets/js/celestial-sky.js`, `assets/css/celestial.css` | Sky gradients, clouds, rays, particles, phase tokens, selector styles. |
+| `assets/images/clock/planet.webp` | Ringed Planet (minutes) from the Stitch prototype. |
+
+**Changing the schedule:** edit `SCHEDULE` at the top of `celestial-core.js` (24-hour `"HH:MM"` start times; default Sunrise 06:00, Noon 07:00, Sunset 18:00, Night 19:00). Nothing else holds time boundaries. `CLOCK.hourZeroAt` there sets which hour is at the top of Earth's ring (0 = midnight, 12 = noon).
 
 | Body | Represents | One revolution |
 |---|---|---|
-| Sun (centre) | digital local time `HH:MM:SS` | — |
-| Mercury | seconds (with milliseconds) | 60 s |
-| Venus | minutes (with fractional seconds) | 60 min |
+| Sun (day) / Moon (night) | digital local time `HH:MM:SS` | — |
+| Asteroid | seconds (with milliseconds) | 60 s |
+| Planet | minutes (with fractional seconds) | 60 min |
 | Earth | hours (with fractional minutes) | **24 h** |
 
-All three read one `new Date()` per animation frame (the browser's local clock). Angles are clockwise from 12 o'clock (`θ = fraction × 2π`; `x = cx + r·sin θ`, `y = cy − r·cos θ`), so 00:00:00 puts every planet at the top, 06:00 puts Earth at 3 o'clock and 12:00 at 6 o'clock. Motion is continuous (`requestAnimationFrame`), not once per second.
+**Modes.** *Automatic* (default) follows local time; *Manual* lets the visitor pick a phase. Stored in `localStorage` key `dito-celestial` as `{mode:"auto"}` or `{mode:"manual",phase}`; the phase is only ever read in Manual mode. Without storage the choice lasts for the visit.
 
-- The **12h/24h button changes the digital text only**; the orbit maths never reads it.
-- Wall-clock time is used on purpose, so planets always match the digits. On a daylight-saving change the wall clock jumps and Earth jumps with it.
-- `prefers-reduced-motion`: planets step once per second, corona/glow animations are off. Animation pauses when the tab is hidden or the clock is off-screen, and resumes from fresh absolute time (no drift).
-- `window.GalacticClockMath.angles(date)` exposes the pure maths for testing.
+**Transitions** (~7.4 s; Moon → Sun at Sunrise, Sun → Moon at Sunset): indicators fade → outgoing body rotates, shrinks, exits right → incoming body enters from the left, grows, rotates and settles → indicators return. Sunrise → Noon and Sunset → Night keep the same body, so only the sky cross-fades. `prefers-reduced-motion` uses a ~1.5 s opacity-only version and disables drifting clouds/particles.
+
+All indicators read one fresh `new Date()` per update (never accumulated), so nothing drifts. Animation pauses when the tab is hidden or the clock is off-screen; the star canvas stops entirely at Noon. `window.GalacticClockMath.angles(date)` and `window.CelestialTransition.sample(kind, ms)` expose the pure maths for testing.
 
 ## Optimized images
 

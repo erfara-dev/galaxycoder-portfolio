@@ -30,7 +30,10 @@
       ".about-future__copy",
       ".form-card",
       ".pager",
-      ".contact > .reveal:first-child"
+      ".contact > .reveal:first-child",
+      ".page-hero .crumbs",
+      ".detail-section > nav",
+      ".back-row"
     ];
     selectors.forEach(function (selector) {
       document.querySelectorAll(selector).forEach(function (item) {
@@ -53,6 +56,17 @@
     });
   }
 
+  /* Parents whose children enter one after another (shares the .reveal-step styles). */
+  function sequence(parent, childSelector, max) {
+    var index = 0;
+    parent.classList.add("reveal", "reveal-heading");
+    Array.prototype.forEach.call(parent.children, function (child) {
+      if (!child.matches(childSelector)) return;
+      child.classList.add("reveal-step");
+      child.style.setProperty("--reveal-step", String(Math.min(index++, max)));
+    });
+  }
+
   function prepareHeadingSequences() {
     var selectors = [
       ".section-head",
@@ -63,15 +77,32 @@
     ];
     selectors.forEach(function (selector) {
       document.querySelectorAll(selector).forEach(function (heading) {
-        heading.classList.add("reveal", "reveal-heading");
-        var index = 0;
-        Array.prototype.forEach.call(heading.children, function (child) {
-          if (!child.matches(".eyebrow, h1, h2, .lead")) return;
-          child.classList.add("reveal-step");
-          child.style.setProperty("--reveal-step", String(index++));
-        });
+        sequence(heading, ".eyebrow, h1, h2, .lead", 3);
       });
     });
+    // Body copy: a gentle paragraph-by-paragraph rise, never word- or letter-level.
+    document.querySelectorAll(".prose").forEach(function (prose) {
+      if (prose.children.length > 1) sequence(prose, "p, ul, ol, blockquote", 4);
+    });
+  }
+
+  var SETTLE_MS = 1500;   // longer than the slowest reveal (delay + duration)
+
+  /* Once an element has finished revealing, drop the reveal classes so the element's own
+     hover / focus transitions (lift, glow) apply again instead of the slow reveal timing. */
+  function settle(item) {
+    item.classList.remove("reveal", "reveal-heading", "is-visible");
+    item.style.removeProperty("--stagger");
+    item.querySelectorAll(".reveal-step").forEach(function (step) {
+      step.classList.remove("reveal-step");
+      step.style.removeProperty("--reveal-step");
+    });
+  }
+
+  function show(item, order, immediate) {
+    if (!immediate) item.style.setProperty("--stagger", String(Math.min(order, 6)));
+    item.classList.add("is-visible");
+    window.setTimeout(function () { settle(item); }, immediate ? 50 : SETTLE_MS);
   }
 
   function revealAll(items) {
@@ -97,12 +128,24 @@
     }
 
     var io = new IntersectionObserver(function (entries, observer) {
+      // Stagger by arrival: items that enter the viewport together cascade in reading order,
+      // while one that scrolls in alone appears at once (no leftover delay from its grid index).
+      var arriving = [];
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
+          arriving.push(entry.target);
+        } else if (entry.boundingClientRect.top < 0) {
+          show(entry.target, 0, true);          // already scrolled past: no animation needed
+        } else {
+          return;
         }
+        observer.unobserve(entry.target);
       });
+      arriving.sort(function (a, b) {
+        var ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+        return Math.abs(ra.top - rb.top) > 8 ? ra.top - rb.top : ra.left - rb.left;
+      });
+      arriving.forEach(function (item, order) { show(item, order, false); });
     }, { threshold: 0.01, rootMargin: "0px 0px -5% 0px" });
 
     items.forEach(function (item) { io.observe(item); });

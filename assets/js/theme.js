@@ -1,79 +1,32 @@
-/* theme.js — dark (default) / light theme with localStorage persistence.
-   The tiny inline script in each page's <head> applies the saved theme before
-   first paint (no flash). This file wires up the toggle buttons.            */
+/* theme.js — header sun/moon button.
+   The site theme is now driven by the celestial phase (see celestial-core.js / celestial-phase.js):
+   Noon uses the light theme; Sunrise, Sunset and Night use the dark theme.
+   This button stays as a quick shortcut: it switches to Manual mode and jumps to Night (from a light
+   phase) or Noon (from a dark one). Automatic mode can be restored from the clock's selector on the
+   home page. The old `dito-theme` storage key is no longer used. */
 (function () {
   "use strict";
-  var KEY = "dito-theme";
   var root = document.documentElement;
-  var META_COLORS = { dark: "#080b18", light: "#eef2fb" };
 
-  function readSaved() {
-    try {
-      var v = window.localStorage.getItem(KEY);
-      return v === "light" || v === "dark" ? v : null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  function save(theme) {
-    try {
-      window.localStorage.setItem(KEY, theme);
-    } catch (e) {
-      /* storage unavailable (private mode, blocked) — theme still applies for this visit */
-    }
-  }
-
-  function systemTheme() {
-    return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-  }
-
-  function apply(theme) {
-    root.setAttribute("data-theme", theme);
-    var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", META_COLORS[theme]);
+  function label() {
+    var light = root.getAttribute("data-theme") === "light";
+    var text = light ? "Switch to Night (manual)" : "Switch to Noon (manual)";
     document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
-      var next = theme === "dark" ? "light" : "dark";
-      btn.setAttribute("aria-label", "Switch to " + next + " theme");
-      btn.setAttribute("title", "Switch to " + next + " theme");
-      btn.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
+      btn.setAttribute("aria-label", text);
+      btn.setAttribute("title", text);
+      btn.setAttribute("aria-pressed", light ? "true" : "false");
     });
-  }
-
-  function current() {
-    return root.getAttribute("data-theme") === "light" ? "light" : "dark";
   }
 
   function toggle() {
-    var next = current() === "dark" ? "light" : "dark";
-    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!reduce) {
-      root.classList.add("theme-transition");
-      window.setTimeout(function () { root.classList.remove("theme-transition"); }, 450);
-    }
-    apply(next);
-    save(next);
+    if (window.CelestialPhase) window.CelestialPhase.toggleDayNight();
   }
 
   function init() {
-    apply(readSaved() || systemTheme());
-    document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
-      btn.addEventListener("click", toggle);
-    });
-
-    // Follow OS changes only while the visitor has not chosen a theme themselves.
-    if (window.matchMedia) {
-      var mq = window.matchMedia("(prefers-color-scheme: light)");
-      var onChange = function () { if (!readSaved()) apply(systemTheme()); };
-      if (mq.addEventListener) mq.addEventListener("change", onChange);
-      else if (mq.addListener) mq.addListener(onChange);
-    }
-
-    // Keep multiple open tabs in sync.
-    window.addEventListener("storage", function (e) {
-      if (e.key === KEY && (e.newValue === "light" || e.newValue === "dark")) apply(e.newValue);
-    });
+    label();
+    document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) { btn.addEventListener("click", toggle); });
+    new MutationObserver(label).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
   }
 
-  window.PortfolioTheme = { init: init, apply: apply, toggle: toggle };
+  window.PortfolioTheme = { init: init, toggle: toggle };
 })();
